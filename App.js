@@ -113,10 +113,20 @@ export default function App() {
           </View>
 
           <View style={styles.actions}>
-            <Pressable onPress={handleFollowPress} style={[styles.button, styles.buttonPrimary]}>
+            <Pressable
+              onPress={handleFollowPress}
+              style={({ pressed }) => [
+                styles.button,
+                styles.buttonPrimary,
+                pressed && styles.pressed,
+              ]}
+            >
               <Text style={[styles.buttonText, styles.buttonTextPrimary]}>Follow</Text>
             </Pressable>
-            <Pressable onPress={handleMessagePress} style={styles.button}>
+            <Pressable
+              onPress={handleMessagePress}
+              style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+            >
               <Text style={styles.buttonText}>Message</Text>
             </Pressable>
           </View>
