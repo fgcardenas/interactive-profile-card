@@ -1,4 +1,5 @@
 // TASK 2 — Interactive Profile Card
+import { useState } from 'react';
 import {
   View,
   Text,
@@ -36,8 +37,10 @@ function formatCount(n) {
 }
 
 export default function App() {
-  // STEP 3: followers must grow by 1 while you are following
-  const followers = BASE_FOLLOWERS;
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  // Derived from state, not a second useState
+  const followers = BASE_FOLLOWERS + (isFollowing ? 1 : 0);
   const stats = [
     { label: 'Projects', value: '24' },
     { label: 'Followers', value: formatCount(followers) },
@@ -45,7 +48,7 @@ export default function App() {
   ];
 
   const handleFollowPress = () => {
-    Alert.alert('Follow', 'You pressed Follow.');
+    setIsFollowing(!isFollowing);
   };
 
   const handleMessagePress = () => {
@@ -56,7 +59,6 @@ export default function App() {
     Alert.alert('Share profile', 'Profile link copied (demo).');
   };
 
-  // TODO STEP 3: add the state for follow / unfollow (useState)
   // TODO STEP 4: add the state for the message composer
   // TODO STEP 5: add the state for the bio, the online status and the selected skills
 
@@ -118,10 +120,19 @@ export default function App() {
               style={({ pressed }) => [
                 styles.button,
                 styles.buttonPrimary,
+                isFollowing && styles.buttonFollowing,
                 pressed && styles.pressed,
               ]}
             >
-              <Text style={[styles.buttonText, styles.buttonTextPrimary]}>Follow</Text>
+              <Text
+                style={[
+                  styles.buttonText,
+                  styles.buttonTextPrimary,
+                  isFollowing && styles.buttonTextFollowing,
+                ]}
+              >
+                {isFollowing ? 'Following' : 'Follow'}
+              </Text>
             </Pressable>
             <Pressable
               onPress={handleMessagePress}
@@ -301,6 +312,9 @@ const styles = StyleSheet.create({
   },
   buttonTextPrimary: {
     color: '#FFFFFF',
+  },
+  buttonTextFollowing: {
+    color: COLORS.primary,
   },
   buttonFollowing: {
     backgroundColor: COLORS.primaryLight,
